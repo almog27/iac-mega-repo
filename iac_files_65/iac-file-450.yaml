@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: using-external-ip-loadbalancer-usecase
+spec:
+  selector:
+    app: MyApp
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+  loadBalancerIP: 1.2.3.4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: using-external-ip-loadbalancer-allowed
+spec:
+  selector:
+    app: MyApp
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer

@@ -1,0 +1,220 @@
+Resources:
+  Allowed: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: "ami-79fd7eee"
+      KeyName: "testkey"
+      BlockDeviceMappings: 
+      - DeviceName: "/dev/sda"
+        Ebs: 
+          VolumeType: "io1"
+          Iops: 200
+          DeleteOnTermination: false
+          VolumeSize: 20
+          Encrypted: true
+      - DeviceName: "/dev/sdk"
+        NoDevice: {}
+  Allowed2: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: "ami-79fd7eee"
+      KeyName: "testkey"
+      BlockDeviceMappings: 
+      - DeviceName: "/dev/sda"
+        VirtualName: ephermal1
+      - DeviceName: "/dev/sdk"
+        NoDevice: {}
+  Denied: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: "ami-79fd7eee"
+      KeyName: "testkey"
+      BlockDeviceMappings: 
+      - DeviceName: "/dev/sda"
+        Ebs: 
+          VolumeType: "io1"
+          Iops: 200
+          DeleteOnTermination: false
+          VolumeSize: 20
+      - DeviceName: "/dev/sdk"
+        NoDevice: {}
+  Denied2: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: "ami-79fd7eee"
+      KeyName: "testkey"
+      BlockDeviceMappings: 
+      - DeviceName: "/dev/xvda"
+        Ebs: 
+          VolumeType: "io1"
+          Iops: 200
+          DeleteOnTermination: false
+          VolumeSize: 20
+          Encrypted: false
+      - DeviceName: "/dev/sdk"
+        NoDevice: {}
+  Denied3: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: "ami-79fd7eee"
+      KeyName: "testkey"
+  Denied4:
+    Type: AWS::EC2::SpotFleet
+    Properties:
+      SpotFleetRequestConfigData:
+        IamFleetRole: 'arn:aws:iam::123456789012:role/role-name-with-path'
+        SpotPrice: '1000'
+        TargetCapacity: 0
+        LaunchSpecifications:
+        - EbsOptimized: false
+          BlockDeviceMappings: 
+            - DeviceName: "/dev/sda"
+              Ebs: 
+                VolumeType: "io1"
+                Iops: 200
+                DeleteOnTermination: false
+                VolumeSize: 20
+                Encrypted: false
+          InstanceType: a1.xlarge
+          ImageId: "ami-79fd7eee"
+          SubnetId: "id-12345"
+          WeightedCapacity: 8.0
+  Denied5:
+    Type: AWS::EC2::SpotFleet
+    Properties:
+      SpotFleetRequestConfigData:
+        IamFleetRole: 'arn:aws:iam::123456789012:role/role-name-with-path'
+        SpotPrice: '1000'
+        TargetCapacity: 0
+        LaunchSpecifications:
+        - EbsOptimized: false
+          BlockDeviceMappings: 
+            - DeviceName: "/dev/sda"
+              Ebs: 
+                VolumeType: "io1"
+                Iops: 200
+                DeleteOnTermination: false
+                VolumeSize: 20
+          InstanceType: a1.xlarge
+          ImageId: "ami-79fd7eee"
+          SubnetId: "id-12345"
+          WeightedCapacity: 8.0
+  Denied6:
+    Type: AWS::EC2::SpotFleet
+    Properties:
+      SpotFleetRequestConfigData:
+        IamFleetRole: 'arn:aws:iam::123456789012:role/role-name-with-path'
+        SpotPrice: '1000'
+        TargetCapacity: 0
+        LaunchSpecifications:
+        - EbsOptimized: false
+          InstanceType: a1.xlarge
+          ImageId: "ami-79fd7eee"
+          SubnetId: "id-12345"
+          WeightedCapacity: 8.0
+  Allowed2:
+    Type: AWS::EC2::SpotFleet
+    Properties:
+      SpotFleetRequestConfigData:
+        IamFleetRole: 'arn:aws:iam::123456789012:role/role-name-with-path'
+        SpotPrice: '1000'
+        TargetCapacity: 0
+        LaunchSpecifications:
+        - EbsOptimized: false
+          BlockDeviceMappings: 
+            - DeviceName: "/dev/sda"
+              Ebs: 
+                VolumeType: "io1"
+                Iops: 200
+                DeleteOnTermination: false
+                VolumeSize: 20
+                Encrypted: true
+          InstanceType: a1.xlarge
+          ImageId: "ami-79fd7eee"
+          SubnetId: "id-12345"
+          WeightedCapacity: 8.0
+  Denied7: 
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties: 
+      ImageId: "ami-02354e95b39ca8dec"
+      InstanceType: "m1.large"
+      EbsOptimized: true
+  Denied8: 
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties: 
+      ImageId: "ami-02354e95b39ca8dec"
+      InstanceType: "m1.large"
+      EbsOptimized: true
+      BlockDeviceMappings:
+        - DeviceName: /dev/sdc
+          Ebs:
+            Encrypted: true
+  Allowed3: 
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties: 
+      ImageId: "ami-02354e95b39ca8dec"
+      InstanceType: "m1.large"
+      EbsOptimized: true
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda
+          Ebs:
+            Encrypted: true
+  Denied9:
+    Type: AWS::EC2::LaunchTemplate
+    Properties: 
+      LaunchTemplateName: test-launch-template
+      LaunchTemplateData: 
+        BlockDeviceMappings: 
+          - Ebs:
+              VolumeSize: 22
+              VolumeType: gp2
+              DeleteOnTermination: true
+            DeviceName: /dev/xvdcz
+        CreditSpecification: 
+          CpuCredits: Unlimited
+        Monitoring: 
+          Enabled: true
+        ImageId: ami-04d5cc9b88example
+        InstanceType: t2.micro
+        KeyName: MyKeyPair
+        SecurityGroupIds: 
+          - sg-7c2270198example
+          - sg-903004f88example
+  Denied10:
+    Type: AWS::EC2::LaunchTemplate
+    Properties: 
+      LaunchTemplateName: test-launch-template
+      LaunchTemplateData: 
+        CreditSpecification: 
+          CpuCredits: Unlimited
+        Monitoring: 
+          Enabled: true
+        ImageId: ami-04d5cc9b88example
+        InstanceType: t2.micro
+        KeyName: MyKeyPair
+        SecurityGroupIds: 
+          - sg-7c2270198example
+          - sg-903004f88example
+  Allowed4:
+    Type: AWS::EC2::LaunchTemplate
+    Properties: 
+      LaunchTemplateName: test-launch-template
+      LaunchTemplateData: 
+        BlockDeviceMappings: 
+          - Ebs:
+              VolumeSize: 22
+              VolumeType: gp2
+              DeleteOnTermination: true
+              Encrypted: true
+            DeviceName: /dev/xvda
+        CreditSpecification: 
+          CpuCredits: Unlimited
+        Monitoring: 
+          Enabled: true
+        ImageId: ami-04d5cc9b88example
+        InstanceType: t2.micro
+        KeyName: MyKeyPair
+        SecurityGroupIds: 
+          - sg-7c2270198example
+          - sg-903004f88example
+

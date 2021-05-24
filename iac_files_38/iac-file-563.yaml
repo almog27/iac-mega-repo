@@ -1,0 +1,11 @@
+Resources:
+  Denied:
+    Type: AWS::SNS::Topic
+    Properties:
+      FifoTopic: true
+  Denied2:
+    Type: AWS::SNS::Topic
+  Allowed:
+    Type: AWS::SNS::Topic
+    Properties:
+      KmsMasterKeyId: alias/aws/sns

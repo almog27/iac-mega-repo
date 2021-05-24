@@ -1,0 +1,11 @@
+Resources:
+  Denied: 
+    Type: AWS::SQS::Queue
+    Properties: 
+      FifoQueue: true
+  Denied2: 
+    Type: AWS::SQS::Queue
+  Allowed: 
+    Type: AWS::SQS::Queue
+    Properties:
+      KmsMasterKeyId: alias/aws/sqs

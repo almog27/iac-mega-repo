@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  MyVPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      CidrBlock: 10.0.0.0/16
+  MyGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: Limits security group egress traffic
+      VpcId:
+        Ref: MyVPC
+  Denied:
+    Type: "AWS::EC2::SecurityGroupIngress"
+    Properties:
+      CidrIp: 0.0.0.0/0
+      IpProtocol: "-1"
+      GroupId:
+        Ref: MyGroup
+  Allowed:
+    Type: "AWS::EC2::SecurityGroupIngress"
+    Properties:
+      CidrIp: 10.0.0.0/16
+      IpProtocol: "-1"
+      GroupId:
+        Ref: MyGroup
+  Allowed2:
+    Type: "AWS::EC2::SecurityGroupIngress"
+    Properties:
+      SourceSecurityGroupId:
+        Ref: MyGroup
+      IpProtocol: "-1"
+      GroupId:
+        Ref: MyGroup
+
+

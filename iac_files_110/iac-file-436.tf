@@ -1,0 +1,27 @@
+resource "aws_elasticache_replication_group" "denied" {
+  automatic_failover_enabled    = true
+  availability_zones            = ["us-west-2a", "us-west-2b"]
+  replication_group_id          = "tf-rep-group-1"
+  replication_group_description = "test description"
+  node_type                     = "cache.m4.large"
+  number_cache_clusters         = 2
+  parameter_group_name          = "default.redis3.2"
+  port                          = 8080
+  transit_encryption_enabled    = true
+
+}
+
+resource "aws_elasticache_replication_group" "denied_2" {
+  automatic_failover_enabled    = true
+  availability_zones            = ["us-west-2a", "us-west-2b"]
+  replication_group_id          = "tf-rep-group-1"
+  replication_group_description = "test description"
+  node_type                     = "cache.m4.large"
+  number_cache_clusters         = 2
+  parameter_group_name          = "default.redis3.2"
+  port                          = 8080
+  transit_encryption_enabled    = true
+
+  at_rest_encryption_enabled = false
+}
+

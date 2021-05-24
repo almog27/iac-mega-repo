@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  Allowed:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: allowed
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: 'aws:kms'
+              KMSMasterKeyID: KMS-KEY-ARN
+            BucketKeyEnabled: true
+  Denied:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: denied
